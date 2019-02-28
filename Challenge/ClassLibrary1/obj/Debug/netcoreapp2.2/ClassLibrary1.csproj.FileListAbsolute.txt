@@ -1,0 +1,9 @@
+C:\Users\ybernal\source\repos\MVC Challenge\Challenge\ClassLibrary1\bin\Debug\netcoreapp2.2\ClassLibrary1.deps.json
+C:\Users\ybernal\source\repos\MVC Challenge\Challenge\ClassLibrary1\bin\Debug\netcoreapp2.2\ClassLibrary1.dll
+C:\Users\ybernal\source\repos\MVC Challenge\Challenge\ClassLibrary1\bin\Debug\netcoreapp2.2\ClassLibrary1.pdb
+C:\Users\ybernal\source\repos\MVC Challenge\Challenge\ClassLibrary1\obj\Debug\netcoreapp2.2\ClassLibrary1.csprojAssemblyReference.cache
+C:\Users\ybernal\source\repos\MVC Challenge\Challenge\ClassLibrary1\obj\Debug\netcoreapp2.2\ClassLibrary1.csproj.CoreCompileInputs.cache
+C:\Users\ybernal\source\repos\MVC Challenge\Challenge\ClassLibrary1\obj\Debug\netcoreapp2.2\ClassLibrary1.AssemblyInfoInputs.cache
+C:\Users\ybernal\source\repos\MVC Challenge\Challenge\ClassLibrary1\obj\Debug\netcoreapp2.2\ClassLibrary1.AssemblyInfo.cs
+C:\Users\ybernal\source\repos\MVC Challenge\Challenge\ClassLibrary1\obj\Debug\netcoreapp2.2\ClassLibrary1.dll
+C:\Users\ybernal\source\repos\MVC Challenge\Challenge\ClassLibrary1\obj\Debug\netcoreapp2.2\ClassLibrary1.pdb
