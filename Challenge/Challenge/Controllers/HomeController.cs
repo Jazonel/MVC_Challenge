@@ -15,16 +15,26 @@ namespace Challenge.Controllers
     {
         List<JsonFormat.AsteroidInfo> informationList = new List<JsonFormat.AsteroidInfo>();
 
+        [HttpGet]
         public IActionResult Index()
         {
-            informationList = CallApi();
+            //informationList = CallApi();
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Index(string initialDate, string endDate)
+        {
+            informationList = CallApi(initialDate, endDate);
             return View(informationList);
         }
+
 
         public IActionResult Privacy()
         {
             return View();
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -33,14 +43,13 @@ namespace Challenge.Controllers
         }
 
 
-
-
-        public List<JsonFormat.AsteroidInfo> CallApi()
+        public List<JsonFormat.AsteroidInfo> CallApi(string initialDate, string endDate)
         {
             List<JsonFormat.AsteroidInfo> information = new List<JsonFormat.AsteroidInfo>();
    
             var webClient = new WebClient();
-            var json = webClient.DownloadString(@"https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-09-07&end_date=2015-09-08&api_key=rNpnnsUuVTCAxCN7ILVbLhpPMJiWzqUutrHI85De");
+            string url = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + initialDate + "&end_date=" + endDate + "&api_key=rNpnnsUuVTCAxCN7ILVbLhpPMJiWzqUutrHI85De";
+            var json = webClient.DownloadString(url);
             JsonFormat.Asteroid asteroids = JsonConvert.DeserializeObject<JsonFormat.Asteroid>(json);
 
             foreach (KeyValuePair<string, List<JsonFormat.AsteroidInfo>> date in asteroids.near_earth_objects)

@@ -8,23 +8,34 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
- <table style="width:100%">
-     <tr>
-         <th>ID</th>
-         <th>Name</th>
-         <th>MAGNITUDE</th>
-         <th>ESTIMATED DIAMETER</th>
-     </tr>
-     @foreach (var d in Model)
-     {
-     <tr>
-         <th>@d.id</th>
-         <th>@d.name</th>
-         <th>@d.absolute_magnitude_h.ToString()</th>
-         <th>@d.estimated_diameter.meters.estimated_diameter_max.ToString()</th>
-     </tr>
-     }
+<form asp-action="Index" method="post">
+    <input  name="initialDate"/>
+    <input  name="endDate"/>
+    <input type="submit" value="Submit"/>
+</form>
 
-</table> 
+<table style="width:100%">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>MAGNITUDE</th>
+        <th>ESTIMATED DIAMETER</th>
+    </tr>
+    @if (Model != null)
+    {
+        @foreach (var information in Model)
+        {
+            <tr>
+                
+                <th>@information.id</th>
+                <th>@information.name</th>
+                <th>@information.absolute_magnitude_h.ToString()</th>
+                <th>@information.estimated_diameter.meters.estimated_diameter_max.ToString()</th>
+            </tr>
+        }
+    }
+
+
+</table>
 
 
