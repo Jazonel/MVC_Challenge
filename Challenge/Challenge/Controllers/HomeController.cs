@@ -13,20 +13,21 @@ namespace Challenge.Controllers
 {
     public class HomeController : Controller
     {
-        List<JsonFormat.AsteroidInfo> informationList = new List<JsonFormat.AsteroidInfo>();
+        
+        List<Tuple<double, JsonFormat.AsteroidInfo>> test = new List<Tuple<double, JsonFormat.AsteroidInfo>>();
 
         [HttpGet]
         public IActionResult Index()
         {
-            //informationList = CallApi();
+           
             return View();
         }
 
         [HttpPost]
         public IActionResult Index(string initialDate, string endDate)
         {
-            informationList = CallApi(initialDate, endDate);
-            return View(informationList);
+            test = CallApi(initialDate, endDate);
+            return View(test);
         }
 
 
@@ -43,23 +44,26 @@ namespace Challenge.Controllers
         }
 
 
-        public List<JsonFormat.AsteroidInfo> CallApi(string initialDate, string endDate)
+        public List<Tuple<double, JsonFormat.AsteroidInfo>> CallApi(string initialDate, string endDate)
         {
+
             List<JsonFormat.AsteroidInfo> information = new List<JsonFormat.AsteroidInfo>();
-   
+            List<Tuple<double, JsonFormat.AsteroidInfo>> information2 = new List<Tuple<double, JsonFormat.AsteroidInfo>>();   
             var webClient = new WebClient();
             string url = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + initialDate + "&end_date=" + endDate + "&api_key=rNpnnsUuVTCAxCN7ILVbLhpPMJiWzqUutrHI85De";
             var json = webClient.DownloadString(url);
             JsonFormat.Asteroid asteroids = JsonConvert.DeserializeObject<JsonFormat.Asteroid>(json);
 
+            
             foreach (KeyValuePair<string, List<JsonFormat.AsteroidInfo>> date in asteroids.near_earth_objects)
             {
                 foreach (JsonFormat.AsteroidInfo value in date.Value)
                 {
-                    information.Add(value);
+                    double distance = double.Parse(value.close_approach_data.First().miss_distance.kilometers) / 299792;
+                    information2.Add(new Tuple<double, JsonFormat.AsteroidInfo>(distance,value));
                 }
             }
-            return information;
+            return information2;
         }
     }
 }

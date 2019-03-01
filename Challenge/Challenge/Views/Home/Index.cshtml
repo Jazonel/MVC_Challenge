@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ClassLibrary1.JsonFormat.AsteroidInfo>
+﻿@model IList<Tuple<double, ClassLibrary1.JsonFormat.AsteroidInfo>>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -14,28 +14,37 @@
     <input type="submit" value="Submit"/>
 </form>
 
-<table style="width:100%">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>MAGNITUDE</th>
-        <th>ESTIMATED DIAMETER</th>
-    </tr>
+<br>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>DATE</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>MAGNITUDE</th>
+            <th>ESTIMATED DIAMETER</th>
+        </tr>
+    </thead>
     @if (Model != null)
     {
         @foreach (var information in Model)
         {
-            <tr>
-                
-                <th>@information.id</th>
-                <th>@information.name</th>
-                <th>@information.absolute_magnitude_h.ToString()</th>
-                <th>@information.estimated_diameter.meters.estimated_diameter_max.ToString()</th>
-            </tr>
+    <tr>
+        <th>@information.Item1</th>
+        <th>@information.Item2.id</th>
+        <!---
+        <th>information.close_approach_data.First()</th>
+        <th>information.id</th>
+        <th>information.name</th>
+        <th>information.absolute_magnitude_h.ToString()</th>
+        <th>information.estimated_diameter.meters.estimated_diameter_max.ToString()</th>
+    --->
+    </tr>
         }
     }
 
-
 </table>
+
+
 
 
