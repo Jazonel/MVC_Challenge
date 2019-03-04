@@ -4,25 +4,26 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Asteroids</h1>
+    <p>Choose a initial date and an end date, with a maximum diference of 7 days to see all the asteroids that passed near the earth those dates</p>
 </div>
 
 <form asp-action="Index" method="post">
-    <input  name="initialDate"/>
-    <input  name="endDate"/>
+    <input  placeholder="yyyy-mm-dd" name="initialDate"/>
+    <input  placeholder="yyyy-mm-dd" name="endDate"/>
     <input type="submit" value="Submit"/>
 </form>
 
 <br>
-<table class="table">
-    <thead class="thead-dark">
+<table class="table table-striped table-dark">
+    <thead >
         <tr>
             <th>DATE</th>
             <th>ID</th>
             <th>Name</th>
             <th>MAGNITUDE</th>
             <th>ESTIMATED DIAMETER</th>
+            <th>TIME TO THE EARTH</th>
         </tr>
     </thead>
     @if (Model != null)
@@ -30,15 +31,14 @@
         @foreach (var information in Model)
         {
     <tr>
-        <th>@information.Item1</th>
+        <th>@information.Item2.close_approach_data.First().close_approach_date</th>
         <th>@information.Item2.id</th>
-        <!---
-        <th>information.close_approach_data.First()</th>
-        <th>information.id</th>
-        <th>information.name</th>
-        <th>information.absolute_magnitude_h.ToString()</th>
-        <th>information.estimated_diameter.meters.estimated_diameter_max.ToString()</th>
-    --->
+        <th>@information.Item2.name</th>
+        <th>@information.Item2.absolute_magnitude_h.ToString()</th>
+        <th>@information.Item2.estimated_diameter.meters.estimated_diameter_max.ToString()</th>
+        <th>@information.Item1</th>
+
+
     </tr>
         }
     }

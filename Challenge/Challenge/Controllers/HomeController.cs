@@ -8,13 +8,14 @@ using Challenge.Models;
 using System.Net;
 using Newtonsoft.Json;
 using ClassLibrary1;
+using System.Globalization;
 
 namespace Challenge.Controllers
 {
     public class HomeController : Controller
     {
         
-        List<Tuple<double, JsonFormat.AsteroidInfo>> test = new List<Tuple<double, JsonFormat.AsteroidInfo>>();
+        List<Tuple<double, JsonFormat.AsteroidInfo>> information = new List<Tuple<double, JsonFormat.AsteroidInfo>>();
 
         [HttpGet]
         public IActionResult Index()
@@ -26,8 +27,8 @@ namespace Challenge.Controllers
         [HttpPost]
         public IActionResult Index(string initialDate, string endDate)
         {
-            test = CallApi(initialDate, endDate);
-            return View(test);
+            information = CallApi(initialDate, endDate);
+            return View(information);
         }
 
 
@@ -44,26 +45,44 @@ namespace Challenge.Controllers
         }
 
 
+
         public List<Tuple<double, JsonFormat.AsteroidInfo>> CallApi(string initialDate, string endDate)
         {
+            List<Tuple<double, JsonFormat.AsteroidInfo>> asteroidInformation = new List<Tuple<double, JsonFormat.AsteroidInfo>>();
+            //DateTime initDate = Convert.ToDateTime(initialDate);
+            initialDate = Convert.ToDateTime(initialDate).ToString("yyyy-MM-dd");
+            endDate = Convert.ToDateTime(initialDate).ToString("yyyy-MM-dd");
 
-            List<JsonFormat.AsteroidInfo> information = new List<JsonFormat.AsteroidInfo>();
-            List<Tuple<double, JsonFormat.AsteroidInfo>> information2 = new List<Tuple<double, JsonFormat.AsteroidInfo>>();   
-            var webClient = new WebClient();
-            string url = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + initialDate + "&end_date=" + endDate + "&api_key=rNpnnsUuVTCAxCN7ILVbLhpPMJiWzqUutrHI85De";
-            var json = webClient.DownloadString(url);
-            JsonFormat.Asteroid asteroids = JsonConvert.DeserializeObject<JsonFormat.Asteroid>(json);
 
-            
-            foreach (KeyValuePair<string, List<JsonFormat.AsteroidInfo>> date in asteroids.near_earth_objects)
+            if (DateTime.TryParse(initialDate, out DateTime initDate) && DateTime.TryParse(endDate, out DateTime finalDate))
             {
-                foreach (JsonFormat.AsteroidInfo value in date.Value)
+                if ((finalDate - initDate).Days <= 7 && initDate <= finalDate)
                 {
-                    double distance = double.Parse(value.close_approach_data.First().miss_distance.kilometers) / 299792;
-                    information2.Add(new Tuple<double, JsonFormat.AsteroidInfo>(distance,value));
+                    var webClient = new WebClient();
+                    string url = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + initialDate + "&end_date=" + endDate + "&api_key=rNpnnsUuVTCAxCN7ILVbLhpPMJiWzqUutrHI85De";
+                    var json = webClient.DownloadString(url);
+                    JsonFormat.Asteroid asteroids = JsonConvert.DeserializeObject<JsonFormat.Asteroid>(json);
+
+                    foreach (KeyValuePair<string, List<JsonFormat.AsteroidInfo>> date in asteroids.near_earth_objects)
+                    {
+                        foreach (JsonFormat.AsteroidInfo value in date.Value)
+                        {
+                            double distance = double.Parse(value.close_approach_data.First().miss_distance.kilometers) / 299792;
+                            asteroidInformation.Add(new Tuple<double, JsonFormat.AsteroidInfo>(distance, value));
+                        }
+                    }
+                    return asteroidInformation;
                 }
+                else
+                {
+                    return asteroidInformation;
+                }
+
             }
-            return information2;
+            else
+            {
+                return asteroidInformation;
+            }
         }
     }
 }
